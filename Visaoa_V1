@@ -1,0 +1,105 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main(){
+    int n, m;
+    cin>>n>>m;
+vector<vector<int>> grid(
+    n + 2,                   // number of rows
+    vector<int>(m + 2, 0)     // one full row
+);
+vector<vector<int>> fixed(
+    n + 2,                   // number of rows
+    vector<int>(m + 2, 0)     // one full row
+);
+
+for (int i =1; i <= n; i++) {
+    for (int j = 1; j <= m; j++) {
+        cin>>grid[i][j];
+    }
+}
+
+
+
+for( int i=1;i<=n;i++){
+    for(int j=1;j<=m;j++){
+        int u = grid[i][j];
+        int cnt=0;
+        if(u == grid[i-1][j]){//above cell
+            cnt++;
+        }
+        if(u == grid[i+1][j]){//below cell
+            cnt++;
+        }
+        if(u == grid[i][j-1]){//left cell
+            cnt++;
+        }
+        if(u == grid[i][j+1]){//right cell
+            cnt++;
+        }
+        if (cnt>=2){
+            fixed[i][j]=1;
+
+            if (u == grid[i-1][j]){
+                fixed[i-1][j]=1;
+            }
+            if (u == grid[i+1][j]){
+                fixed[i+1][j]=1;
+            }
+            if (u == grid[i][j-1]){
+                fixed[i][j-1]=1;
+            }
+            if (u == grid[i][j+1]){
+                fixed[i][j+1]=1;
+            }
+        }
+    }
+}
+
+//making these fixed cells zero
+
+for(int i=1;i<=n;i++){
+    for(int j =1; j<=m;j++){
+        if(fixed[i][j]==1){
+            grid[i][j]=0;
+        }
+        cout<< fixed[i][j]<<"";
+
+    }
+    cout<<"\n";
+}
+cout<<"\n";
+//Gravity Application falling down of non zero number
+
+
+for(int j =1; j<=m;j++){
+    vector<int> p;//Temporary vector to store non zero elements
+    for(int i =n;i>=1;i--){ // traversal from bottom to top
+        if(grid[i][j]>0){
+            p.push_back(grid[i][j]);
+        }
+        grid[i][j]=0;//making all cells zero initially
+    }
+
+    int index = 0;// index for tracking the position inside the p vector
+    for(int i = n; i>=1 && index < p.size(); i--){
+        grid[i][j]=p[index];
+        index++;
+    }
+}
+//Printing the final grid
+for(int i=1;i<=n;i++){
+    for(int j =1; j<=m;j++){
+        cout<< grid[i][j]<<" ";
+
+    }
+    cout<<"\n";
+}
+return 0;
+}
+
+
+
+ 
