@@ -1,0 +1,36 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int calculateValidSegments(string s) {
+    int n = s.size();
+    long long count = 0;
+
+    for (int i = 0; i < n; i++) {
+        vector<int> freq(26, 0);
+        int uniqueCount = 0;
+        int maxFreq = 0;
+
+        for (int j = i; j < n; j++) {
+            int c = s[j] - 'a';
+
+            if (freq[c] == 0)
+                uniqueCount++;
+
+            freq[c]++;
+            maxFreq = max(maxFreq, freq[c]);
+
+            
+            if (maxFreq <= uniqueCount) {
+                count++;
+            }
+        }
+    }
+    return count;
+}
+
+int main() {
+    string s;
+    cin >> s;
+    cout << calculateValidSegments(s);
+    return 0;
+}
